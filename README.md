@@ -47,6 +47,7 @@ market-aws-lambda-products/
 ### API de Productos
 
 1. **Crear producto (POST /products)**
+
    - Crea un nuevo producto en la base de datos
    - Requiere autenticación JWT
    - Cada producto contiene: id, nombre, marca, categorías, precio, usuario y fecha de creación
@@ -82,6 +83,7 @@ El proyecto utiliza Terraform para definir y aprovisionar toda la infraestructur
 ### Comandos disponibles
 
 - **Construir lambdas**: `npm run build:lambdas`
+
   - Compila el código TypeScript utilizando esbuild
   - Genera archivos ZIP para cada función Lambda
 
@@ -104,12 +106,12 @@ El proyecto requiere las siguientes variables para el despliegue:
 
 ```typescript
 interface IProduct {
-  id: string;        // Identificador único del producto
-  name: string;      // Nombre del producto
-  brand: string;     // Marca del producto
+  id: string; // Identificador único del producto
+  name: string; // Nombre del producto
+  brand: string; // Marca del producto
   categories: string[]; // Categorías a las que pertenece
-  price: number;     // Precio del producto
-  userId: string;    // ID del usuario que creó el producto
+  price: number; // Precio del producto
+  userId: string; // ID del usuario que creó el producto
   createdAt: string; // Fecha de creación
 }
 ```
