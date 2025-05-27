@@ -10,19 +10,19 @@ module "create_products" {
 
   function_name             = "create-products"
   lambda_role_arn           = module.lambda_shared.lambda_role_arn
-  zip_file                  = "${path.module}/../lambdas/create-products"
+  zip_file                  = "${path.module}/../lambdas/create-products.zip"
   source_code_hash          = filebase64sha256("${path.module}/../lambdas/create-products.zip")
   api_gateway_id            = module.api_gateway.api_id
   api_gateway_execution_arn = module.api_gateway.execution_arn
 
   environment_variables = {
-    ENV         = "dev"
-    USERS_TABLE = module.dynamodb.table_name
+    ENV            = "dev"
+    PRODUCTS_TABLE = module.dynamodb.table_name
   }
 }
 
 # Get products Lambda
-/* module "get_products" {
+module "get_products" {
   source = "./modules/lambda"
 
   function_name             = "get-products"
@@ -34,24 +34,23 @@ module "create_products" {
 
   environment_variables = {
     ENV            = "dev"
-    USERS_TABLE    = module.dynamodb.table_name
+    PRODUCTS_TABLE = module.dynamodb.table_name
   }
 }
- */
+
 # Api Gateway Routes
 resource "aws_apigatewayv2_route" "create_products_route" {
-  api_id    = module.api_gateway.api_id
-  route_key = "POST /products"
-  target    = "integrations/${module.create_products.integration_id}"
+  api_id             = module.api_gateway.api_id
+  route_key          = "POST /products"
+  target             = "integrations/${module.create_products.integration_id}"
   authorization_type = "CUSTOM"
-  authorizer_id = aws_apigatewayv2_authorizer.jwt_authorizer.id
+  authorizer_id      = aws_apigatewayv2_authorizer.jwt_authorizer.id
 }
 
-/* resource "aws_apigatewayv2_route" "get_products_route" {
-  api_id    = module.api_gateway.api_id
-  route_key = "GET /products"
-  target    = "integrations/${module.get_products.integration_id}"
+resource "aws_apigatewayv2_route" "get_products_route" {
+  api_id             = module.api_gateway.api_id
+  route_key          = "GET /products"
+  target             = "integrations/${module.get_products.integration_id_get}"
   authorization_type = "CUSTOM"
-  authorizer_id = aws_apigatewayv2_authorizer.jwt_authorizer.id
+  authorizer_id      = aws_apigatewayv2_authorizer.jwt_authorizer.id
 }
- */
