@@ -18,19 +18,19 @@ resource "aws_apigatewayv2_integration" "lambda_integration_post" {
   api_id           = var.api_gateway_id
   integration_type = "AWS_PROXY"
 
-  integration_uri        = aws_lambda_function.function
+  integration_uri        = aws_lambda_function.function.invoke_arn
   integration_method     = "POST"
   payload_format_version = "2.0"
 }
 
-/* resource "aws_apigatewayv2_integration" "lambda_integration_get" {
+resource "aws_apigatewayv2_integration" "lambda_integration_get" {
   api_id           = var.api_gateway_id
   integration_type = "AWS_PROXY"
 
   integration_uri        = aws_lambda_function.function.invoke_arn
-  integration_method     = "GET"
+  integration_method     = "POST" # Cambiado de GET a POST para AWS_PROXY
   payload_format_version = "2.0"
-} */
+}
 
 resource "aws_lambda_permission" "api_gateway" {
   statement_id  = "AllowAPIGatewayInvoke"
@@ -41,7 +41,7 @@ resource "aws_lambda_permission" "api_gateway" {
 }
 
 resource "aws_lambda_permission" "api_authorizer" {
-  statement_id  = "AllowAPIGatewayInvokeAuthorizer"
+  statement_id  = "AllowAPIGatewayInvokeAuthorizer-${var.function_name}" # Hacer el ID único
   action        = "lambda:InvokeFunction"
   function_name = "arn:aws:lambda:us-west-1:590183686443:function:jwt-authorizer"
   principal     = "apigateway.amazonaws.com"
