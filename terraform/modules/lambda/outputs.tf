@@ -17,3 +17,8 @@ output "integration_id" {
   description = "ID of the API Gateway integration"
   value       = aws_apigatewayv2_integration.lambda_integration_post.id
 }
+
+output "integration_id_get" {
+  description = "ID of the API Gateway GET integration"
+  value       = aws_apigatewayv2_integration.lambda_integration_get.id
+}
