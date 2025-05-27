@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:lambdas": "node build.js",
+    "deploy": "npm run build:lambdas && cd terraform && terraform apply"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +15,12 @@
   "dependencies": {
     "aws-sdk": "^2.1692.0",
     "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "@types/node": "^22.15.21",
+    "adm-zip": "^0.5.16",
+    "esbuild": "^0.25.4",
+    "typescript": "^5.8.3"
   }
 }
